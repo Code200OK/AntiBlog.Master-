@@ -1,39 +1,40 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RegistrationComponent } from './registration.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FirstErrorPipe } from '../../../shared/pipes/first-error.pipe';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { RegistrationState } from '../store/auth.reducer';
 
 describe('RegistrationComponent', () => {
     let component: RegistrationComponent;
+    let fixture: ComponentFixture<RegistrationComponent>;
 
-    const formGroup = {
-        group: jest.fn()
-    } as any;
+    let formBuilderStub: Partial<FormBuilder>;
+    let translateServiceStub: Partial<TranslateService>;
+    let mockStore: MockStore;
 
-    const registrationService = {
-        registerUser: jest.fn()
-    } as any;
+    const initialState = {
+        isSpinnerOn: false
+    } as RegistrationState
 
-    const router = {
-        navigate: jest.fn()
-    } as any;
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [RegistrationComponent, FirstErrorPipe],
+            imports: [TranslateModule, ReactiveFormsModule, RouterTestingModule],
+            providers: [
+                { provide: FormBuilder, useValue: formBuilderStub },
+                provideMockStore({ initialState }),
+                { provide: TranslateService, useValue: translateServiceStub },
+            ]
+        });
 
-    const toastr = {
-      error: jest.fn()
-    } as any;
-
-    const localeService = {
-      get: jest.fn()
-    } as any;
-
-    beforeAll(() => {
-        component = new RegistrationComponent(
-            formGroup,
-            toastr,
-            localeService,
-            registrationService,
-            router
-        );
+        fixture = TestBed.createComponent(RegistrationComponent);
+        component = fixture.componentInstance;
+        
+        mockStore = TestBed.inject(MockStore);
     });
-
-    beforeEach(() => { });
 
     it('should create', () => {
         expect(component).toBeTruthy();

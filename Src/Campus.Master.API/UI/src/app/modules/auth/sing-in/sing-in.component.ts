@@ -28,7 +28,7 @@ export class SingInComponent implements OnInit, OnDestroy {
     'Wrong email or password': 'AUTH.ERROR-TOASTR.WRONG-EMAIL-PASSWORD'
   };
 
-  constructor(private auth: SignInService,
+  constructor(private signInService: SignInService,
               private toastr: ToastrService,
               private localeService: LocaleService,
               private router: Router) {
@@ -55,7 +55,7 @@ export class SingInComponent implements OnInit, OnDestroy {
       password: this.form.value.password,
     };
 
-    this.signInUser$ = this.auth.login(user).subscribe(
+    this.signInUser$ = this.signInService.login(user).subscribe(
       (token: string) => {
         localStorage.setItem('token', token);
         this.form.reset();

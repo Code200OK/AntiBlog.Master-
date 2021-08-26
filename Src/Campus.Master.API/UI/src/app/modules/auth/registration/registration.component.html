@@ -119,8 +119,8 @@
             </div>
           </div>
           <button type="submit" class="registration__btn" [disabled]="registerForm.invalid">
-            <span [ngClass]="{'none-block': spinner}">{{ 'AUTH.REGISTRATION.REGISTER' | translate }}</span>
-            <div [ngClass]="{'box loader-02': spinner}"></div>
+            <span [ngClass]="{'none-block': isSpinnerOn$ | async}">{{ 'AUTH.REGISTRATION.REGISTER' | translate }}</span>
+            <div [ngClass]="{'box loader-02': isSpinnerOn$ | async}"></div>
           </button>
         </form>
 
